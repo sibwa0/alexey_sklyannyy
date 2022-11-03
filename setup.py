@@ -8,12 +8,12 @@ with open('requirements.txt') as f:
 setup(
     name="ml_project",
     packages=find_packages(),
-    version="1.0.0",
+    version="1.0.1",
     description="",
     author="Sklyannyy Alexey ML-21",
     entry_points={
         "console_scripts": [
-            # "ml_example_train = ml_example.train_pipeline:train_pipeline"
+            "ml_project_main = ml_project.train_pipeline:main"
         ]
     },
     install_requires=required
