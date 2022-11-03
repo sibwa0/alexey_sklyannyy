@@ -5,7 +5,7 @@ import pandas as pd
 @dataclass
 class SplitParams:
     test_size: float = 0.2
-    seed: int = 0
+    random_state: int = 0
 
 @dataclass
 class SplitData:

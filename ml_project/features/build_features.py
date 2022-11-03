@@ -25,6 +25,3 @@ def build_transformer(params: FeatureParams) -> ColumnTransformer:
         ]
     )
     return transformer
-
-# def make_features(transformer: ColumnTransformer, df: pd.DataFrame) -> pd.DataFrame:
-#     return transformer.transform(df)

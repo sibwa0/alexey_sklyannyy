@@ -7,6 +7,8 @@ from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.metrics import classification_report
 
+from sklearn.linear_model import LogisticRegression
+
 from sklearn.ensemble import (
     RandomForestClassifier,
     GradientBoostingClassifier
@@ -17,8 +19,9 @@ from ml_project.entities.train_params import TrainingParams
 
 SklearnClassifierModel = Union[
     RandomForestClassifier,
-    GradientBoostingClassifier
-    ]
+    GradientBoostingClassifier,
+    LogisticRegression
+]
 
 
 def train_model(
@@ -30,6 +33,8 @@ def train_model(
         )
     elif train_params.model_type == "GradientBoostingClassifier":
         model = GradientBoostingClassifier()
+    elif train_params.model_type == "LogisticRegression":
+        model = LogisticRegression(max_iter=train_params.n_estimators)
     else:
         raise NotImplementedError()
 

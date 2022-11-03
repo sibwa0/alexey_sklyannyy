@@ -19,7 +19,7 @@ def split_train_test_data(
 ) -> Tuple[pd.DataFrame, pd.DataFrame, pd.Series, pd.Series]:
 
     X_train, X_test, y_train, y_test = train_test_split(
-        data.X, data.y, test_size=params.test_size, random_state=params.seed
+        data.X, data.y, test_size=params.test_size, random_state=params.random_state
     )
 
     return X_train, X_test, y_train, y_test

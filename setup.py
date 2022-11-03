@@ -8,8 +8,8 @@ with open('requirements.txt') as f:
 setup(
     name="ml_project",
     packages=find_packages(),
-    version="1.0.1",
-    description="",
+    version="1.0.6",
+    description="01_hw_heart_cleveland",
     author="Sklyannyy Alexey ML-21",
     entry_points={
         "console_scripts": [

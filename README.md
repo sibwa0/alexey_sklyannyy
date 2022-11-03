@@ -24,7 +24,7 @@ pip install -r requirements.txt
 ~~~
 Usage:
 ~~~
-python ml_example/train_pipeline.py configs/train_config.yaml
+python ml_project/train_pipeline.py configs/train_config.yaml
 ~~~
 
 Test:
