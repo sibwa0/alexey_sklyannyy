@@ -48,7 +48,7 @@ Project Organization
     ├── notebooks          <- Jupyter notebooks. 
     │
     │
-    ├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
+    ├── requirements.txt   <- The requirements file for reproducing the analysis environment
     │                         generated with `pip freeze > requirements.txt`
     │
     ├── setup.py           <- makes project pip installable (pip install -e .) so src can be imported
