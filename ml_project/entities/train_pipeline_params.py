@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Optional
 
 from marshmallow_dataclass import class_schema
 import yaml
@@ -16,6 +17,8 @@ class TrainingPipelineParams:
     split_params: SplitParams
     feature_params: FeatureParams
     train_params: TrainingParams
+    train_dataframe_path: Optional[str] = "data/raw/predict_dataset.csv"
+    scaler: Optional[str] = None
 
 
 TrainingPipelineParamsSchema = class_schema(TrainingPipelineParams)

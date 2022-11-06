@@ -10,7 +10,7 @@ from ml_project.entities.feature_params import FeatureParams
 
 def build_numerical_pipeline() -> Pipeline:
     num_pipeline = Pipeline([
-        ("scaler", StandardScaler(missing_values=np.nan))
+        ("scaler", StandardScaler())
     ])
     return num_pipeline
 

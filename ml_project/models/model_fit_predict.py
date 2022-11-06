@@ -29,12 +29,17 @@ def train_model(
 ) -> SklearnClassifierModel:
     if train_params.model_type == "RandomForestClassifier":
         model = RandomForestClassifier(
-            n_estimators=train_params.n_estimators, random_state=train_params.random_state
+            # n_estimators=train_params.n_iters,
+            random_state=train_params.random_state
         )
     elif train_params.model_type == "GradientBoostingClassifier":
-        model = GradientBoostingClassifier()
+        model = GradientBoostingClassifier(
+            n_estimators=train_params.n_iters
+        )
     elif train_params.model_type == "LogisticRegression":
-        model = LogisticRegression(max_iter=train_params.n_estimators)
+        model = LogisticRegression(
+            random_state=train_params.random_state
+        )
     else:
         raise NotImplementedError()
 
@@ -44,6 +49,9 @@ def train_model(
 def create_inference_pipeline(
     model: SklearnClassifierModel, transformer: ColumnTransformer
 ) -> Pipeline:
+    if transformer is None:
+        return Pipeline([("model_handling", model)])
+
     return Pipeline([("feature_handling", transformer), ("model_handling", model)])
 
 def predict_model(
@@ -64,3 +72,8 @@ def serialize_model(model: object, output: str) -> str:
     with open(output, "wb") as f:
         pickle.dump(model, f)
     return output
+
+def deserialize_model(input: str) -> object:
+    with open(input, "rb") as f:
+        model = pickle.load(f)
+    return model

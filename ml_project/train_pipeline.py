@@ -1,14 +1,17 @@
 import json
+from pprint import PrettyPrinter
 import pandas as pd
 from typing import Tuple
 import click
+import numpy as np
 
 import logging
 
 from ml_project.data.make_dataset import (
     read_data,
     split_train_test_data,
-    divide_df_to_sings_marks
+    divide_df_to_sings_marks,
+    save_df
 )
 from ml_project.entities.train_pipeline_params import TrainingPipelineParams
 from ml_project.features.build_features import (
@@ -23,9 +26,14 @@ from ml_project.models.model_fit_predict import (
     serialize_model
 )
 
-# from ml_project.utils.log import setup_logger
+# from ml_project.utils.utils import (
+#     setup_logger,
+#     save_data
+# )
 
-# logging
+
+
+# logging # to utils
 def setup_logger(name, log_file, level=logging.INFO):
     """To setup as many loggers as you want"""
 
@@ -53,7 +61,12 @@ def train_pipeline(config_path: str):
 def run_train_pipeline(training_pipeline_params: TrainingPipelineParams) -> Tuple[str, str]:
     logger.info(f"__Start training :: params = {training_pipeline_params}")
     data_frame = read_data(training_pipeline_params.input_data_path)
-    split_data_frame = divide_df_to_sings_marks(data_frame)
+
+    split_data_frame = divide_df_to_sings_marks(
+        data_frame,
+        training_pipeline_params.train_dataframe_path
+    )
+
     train_df, test_df, train_marks, test_marks = split_train_test_data(
         split_data_frame, training_pipeline_params.split_params
     )
@@ -63,8 +76,11 @@ def run_train_pipeline(training_pipeline_params: TrainingPipelineParams) -> Tupl
         test_df   test_marks  :: {test_df.shape} {test_marks.shape}"""
     )
 
-    transformer = build_transformer(training_pipeline_params.feature_params)
-    transformer.fit(train_df)
+    if not (training_pipeline_params.train_params.scaler is None):
+        transformer = build_transformer(training_pipeline_params.feature_params)
+        train_df = transformer.fit_transform(train_df)
+    else:
+        transformer = None
 
     model = train_model(
         train_df, train_marks, training_pipeline_params.train_params
@@ -85,6 +101,10 @@ def run_train_pipeline(training_pipeline_params: TrainingPipelineParams) -> Tupl
     with open(training_pipeline_params.metric_path, "w") as metric_file:
         json.dump(metrics, metric_file)
     logger.info(f"Metrics :: {metrics}")
+
+    pp = PrettyPrinter(indent=4, width=40)
+    pp.pprint(metrics)
+
 
     path_to_model = serialize_model(
         inference_pipeline, training_pipeline_params.output_model_path

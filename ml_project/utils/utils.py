@@ -1,4 +1,5 @@
 import logging
+import numpy as np
 
 
 # logging
@@ -15,3 +16,7 @@ def setup_logger(name, log_file, level=logging.INFO):
     logger.addHandler(handler)
 
     return logger
+
+def save_data(path: str, data: np.array):
+    with open(path, "wb") as fd:
+        np.save(fd, data)

@@ -7,10 +7,10 @@
 ml project
 
 +- Step 0:
-Необходимо использовать python3.6
+Необходимо использовать python3.8
 ~~~
-sudo apt-get install python3.6
-sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 <input random number to choose python3.6>
+sudo apt-get install python3.8
+sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 <input random number to choose python3.8>
 sudo update-alternatives --config python3
 <choose your input number>
 ~~~ 
