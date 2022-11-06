@@ -1,6 +1,9 @@
 predict_dataset.csv
 model_predicts
-
+test_model_predicts.csv
+test_path.csv
+*.pkl
+*.json
 
 # *.csv
 # .venv

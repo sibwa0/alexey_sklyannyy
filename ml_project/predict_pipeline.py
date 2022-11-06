@@ -18,21 +18,10 @@ from ml_project.models.model_fit_predict import (
     predict_model
 )
 
+from ml_project.utils.utils import (
+    setup_logger
+)
 
-# to utils
-def setup_logger(name, log_file, level=logging.INFO):
-    """To setup as many loggers as you want"""
-
-    formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
-
-    handler = logging.FileHandler(log_file, mode="w")        
-    handler.setFormatter(formatter)
-
-    logger = logging.getLogger(name)
-    logger.setLevel(level)
-    logger.addHandler(handler)
-
-    return logger
 
 logger = setup_logger("main", "predict.log")
 
@@ -68,6 +57,6 @@ def run_predict_pipeline(predicting_pipeline_params: PredictingPipelineParams):
 def main(config_path: str):
     predict_pipeline(config_path)
 
-    
+
 if __name__ == "__main__":
     main()

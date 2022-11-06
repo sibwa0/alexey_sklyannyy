@@ -5,7 +5,6 @@ from typing import Tuple
 import click
 import numpy as np
 
-import logging
 
 from ml_project.data.make_dataset import (
     read_data,
@@ -31,24 +30,7 @@ from ml_project.utils.utils import (
 )
 
 
-
-# logging # to utils
-# def setup_logger(name, log_file, level=logging.INFO):
-#     """To setup as many loggers as you want"""
-
-#     formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
-
-#     handler = logging.FileHandler(log_file, mode="w")        
-#     handler.setFormatter(formatter)
-
-#     logger = logging.getLogger(name)
-#     logger.setLevel(level)
-#     logger.addHandler(handler)
-
-#     return logger
-
 logger = setup_logger("train", "train.log")
-
 
 
 def train_pipeline(config_path: str):
