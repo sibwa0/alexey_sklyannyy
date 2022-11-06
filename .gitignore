@@ -1,5 +1,5 @@
 predict_dataset.csv
-model_predicts
+model_predicts.csv
 test_model_predicts.csv
 test_path.csv
 *.pkl
