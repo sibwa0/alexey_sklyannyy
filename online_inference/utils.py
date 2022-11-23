@@ -1,12 +1,11 @@
 import logging
 
 
-PATH_TO_DATA = "data/data.csv"
+PATH_TO_DATA = "../data/raw/heart_cleveland_upload.csv"
 LOCAL_HOST = "0.0.0.0"
 PORT = 8000
 ENDPOINT = "predict"
 ITERS = 5
-# PATH_TO_MODEL = 
 
 
 # logging

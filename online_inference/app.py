@@ -4,7 +4,11 @@ import pickle
 import numpy as np
 import pandas as pd
 import uvicorn
-from fastapi import FastAPI
+import gdown
+from fastapi import (
+    FastAPI,
+    HTTPException
+)
 from typing import (
     List,
     Union
@@ -46,21 +50,26 @@ def make_predict(
     
     predicts = model.predict(data)
 
-    on_inf_logger.info(f"make_predict :: predicts( {predicts} ) ")
-
     return [ConditionResponse(id=id_, condition=cond_)
         for id_, cond_ in zip(ids, predicts)
     ]
 
+model = None
 
 app = FastAPI()
 
 @app.get("/")
 def main():
+
     return "Main Directory"
+
 
 @app.on_event("startup")
 def load_model():
+
+    url = os.getenv("PATH_DOWNLOAD_MODEL")
+    gdown.download(url, quiet=False)
+
     print("Startup")
     global model
     model_path = os.getenv("PATH_TO_MODEL")
@@ -72,13 +81,11 @@ def load_model():
     model = load_object(model_path)
 
 @app.get("/status")
-def status():
-    on_inf_logger.info("In /health")
-    return f"Model ready status :: ( {model is not None} )"
+def status() -> bool:
+    return f"model status :: {model is not None}"
 
 @app.get("/predict", response_model=List[ConditionResponse])
 def predict(request: Request):
-
 
     return make_predict(
         request.data,
@@ -88,4 +95,5 @@ def predict(request: Request):
 
 
 if __name__ == "__main__":
+
     uvicorn.run("app:app", host="0.0.0.0", port=os.getenv("PORT", 8000))

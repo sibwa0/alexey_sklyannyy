@@ -15,11 +15,11 @@ from utils import (
 
 if __name__ == "__main__":
     on_inf_logger.debug("Read Data")
-    print("Read Data")
 
     data = pd.read_csv(PATH_TO_DATA).drop(["condition"], axis=1)
     data["id"] = data.index + 1
     request_features = list(data.columns)
+    on_inf_logger.debug(f"Request features :: ( {request_features} )")
 
     for i in range(ITERS):
         request_data = [
@@ -32,7 +32,7 @@ if __name__ == "__main__":
             json={"data": [request_data], "features": request_features}
         )
         on_inf_logger.info(f"Response Status code :: ( {response.status_code} )")
-        on_inf_logger.info(f"Response json :: ( response.json() )")
+        on_inf_logger.info(f"Response json :: ( {response.json()} )")
         print(response.status_code)
         print(response.json())
 
