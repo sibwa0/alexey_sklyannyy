@@ -19,7 +19,7 @@ Installation:
 ~~~
 python -m venv .venv
 source .venv/bin/activate
-pip install --upgrate pip
+pip install --upgrade pip
 pip install -r requirements.txt
 ~~~
 Usage:
@@ -27,8 +27,8 @@ Usage:
 python setup.py build
 python setup.py install
 
-python ml_project_train configs/train_config_randforest.yaml
-python ml_project_predict configs/predict_config.yaml
+ml_project_train configs/train_config_randforest.yaml
+ml_project_predict configs/predict_config.yaml
 
 or
 

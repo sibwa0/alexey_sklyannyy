@@ -78,7 +78,7 @@ def status():
 
 @app.get("/predict", response_model=List[ConditionResponse])
 def predict(request: Request):
-    print("debug")
+
 
     return make_predict(
         request.data,
