@@ -1,4 +1,3 @@
-import logging
 import os
 import pickle
 
@@ -53,19 +52,6 @@ def make_predict(
         for id_, cond_ in zip(ids, predicts)
     ]
 
-# def make_predict(
-#     data: List, features: List[str], model: Pipeline
-# ) -> List[ConditionResponse]:
-#     data = pd.DataFrame(x.__dict__ for x in data)
-#     ids = [int(x) for x in data.index]
-#     predicts = model.predict(data)
-
-#     on_inf_logger.info(f"make_predict :: predicts( {predicts} ) ")
-
-#     return [ConditionResponse(id=id_, condition=cond_)
-#         for id_, cond_ in zip(ids, predicts)
-#     ]
-
 
 app = FastAPI()
 
@@ -99,12 +85,6 @@ def predict(request: Request):
         request.features,
         model
     )
-    
-    # return make_predict(
-    #     request,
-    #     model
-    # )
-
 
 
 if __name__ == "__main__":
