@@ -8,20 +8,23 @@ from utils import (
     ENDPOINT,
     LOCAL_HOST,
     PATH_TO_DATA,
-    PORT
+    PORT,
+    ITERS
 )
 
 
 if __name__ == "__main__":
     on_inf_logger.debug("Read Data")
+    print("Read Data")
 
-    data = pd.read_csv(PATH_TO_DATA)
-    # request_features = data.drop(["condition"], axis=1)
+    data = pd.read_csv(PATH_TO_DATA).drop(["condition"], axis=1)
+    data["id"] = data.index + 1
     request_features = list(data.columns)
 
-    for i in range(10):
+    for i in range(ITERS):
         request_data = [
-            x.item() if isinstance(x, np.generic) else x for x in data.iloc[i].tolist()
+            x.item() if isinstance(x, np.generic) \
+            else x for x in data.iloc[i].tolist()
         ]
 
         response = requests.get(

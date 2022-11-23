@@ -25,12 +25,13 @@ from utils import on_inf_logger
 
 
 class ConditionResponse(BaseModel):
-    id: int
+    id: str
     condition: int
 
 class Request(BaseModel):
-    data: List[conlist(Union[float, str, None], min_items=80, max_items=80)]
+    data: List[conlist(Union[float, str], min_items=1, max_items=15)]
     features: List[str]
+
 
 def load_object(path: str) -> Pipeline:
     with open(path, "rb") as load:
@@ -41,7 +42,9 @@ def make_predict(
     data: List, features: List[str], model: Pipeline
 ) -> List[ConditionResponse]:
     data = pd.DataFrame(data, columns=features)
-    ids = [int(x) for x in data["Id"]]
+    ids = data["id"]
+    data = data.drop(["id"], axis=1)
+    
     predicts = model.predict(data)
 
     on_inf_logger.info(f"make_predict :: predicts( {predicts} ) ")
@@ -49,6 +52,20 @@ def make_predict(
     return [ConditionResponse(id=id_, condition=cond_)
         for id_, cond_ in zip(ids, predicts)
     ]
+
+# def make_predict(
+#     data: List, features: List[str], model: Pipeline
+# ) -> List[ConditionResponse]:
+#     data = pd.DataFrame(x.__dict__ for x in data)
+#     ids = [int(x) for x in data.index]
+#     predicts = model.predict(data)
+
+#     on_inf_logger.info(f"make_predict :: predicts( {predicts} ) ")
+
+#     return [ConditionResponse(id=id_, condition=cond_)
+#         for id_, cond_ in zip(ids, predicts)
+#     ]
+
 
 app = FastAPI()
 
@@ -58,6 +75,7 @@ def main():
 
 @app.on_event("startup")
 def load_model():
+    print("Startup")
     global model
     model_path = os.getenv("PATH_TO_MODEL")
     if model_path is None:
@@ -69,17 +87,24 @@ def load_model():
 
 @app.get("/status")
 def status():
+    on_inf_logger.info("In /health")
     return f"Model ready status :: ( {model is not None} )"
 
 @app.get("/predict", response_model=List[ConditionResponse])
 def predict(request: Request):
     print("debug")
-    on_inf_logger.debug("debug")
+
     return make_predict(
         request.data,
         request.features,
         model
     )
+    
+    # return make_predict(
+    #     request,
+    #     model
+    # )
+
 
 
 if __name__ == "__main__":
