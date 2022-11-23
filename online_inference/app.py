@@ -4,6 +4,7 @@ import pickle
 import numpy as np
 import pandas as pd
 import uvicorn
+import gdown
 from fastapi import FastAPI
 from typing import (
     List,
@@ -61,6 +62,9 @@ def main():
 
 @app.on_event("startup")
 def load_model():
+    # gdown.download_folder(
+    #     "https://drive.google.com/drive/u/2/folders/1GGyq84IqSSmG2fTNh2kcgokW_lzCXNrT", quiet=True
+    # )
     print("Startup")
     global model
     model_path = os.getenv("PATH_TO_MODEL")

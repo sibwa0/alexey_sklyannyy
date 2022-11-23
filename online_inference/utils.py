@@ -6,7 +6,6 @@ LOCAL_HOST = "0.0.0.0"
 PORT = 8000
 ENDPOINT = "predict"
 ITERS = 5
-# PATH_TO_MODEL = 
 
 
 # logging
