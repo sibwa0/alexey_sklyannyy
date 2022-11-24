@@ -35,19 +35,4 @@ if __name__ == "__main__":
         on_inf_logger.info(f"Response json :: ( {response.json()} )")
         print(response.status_code)
         print(response.json())
-
-
-    # request_features.to_dict(orient="records")
-    # on_inf_logger.debug(f"Request json :: ( {request_features} )")
-
-    # response = requests.get(
-    #     f"http://{LOCAL_HOST}:{PORT}/{ENDPOINT}",
-    #     json.dumps(request_features)
-    # )
-
-    # on_inf_logger.info(f"Response Status code :: ( {response.status_code} )")
-    # on_inf_logger.info(f"Response json :: ( response.json() )")
-    # print(response.status_code)
-    # print(response.json())
-
     
