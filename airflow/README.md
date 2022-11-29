@@ -1,7 +1,7 @@
 Build airflow-ml-base:
 ~~~
-cd images/airflow-ml-base
-docker build -t airflow-ml-base:latest .
+$ cd images/airflow-ml-base
+$ docker build -t airflow-ml-base:latest .
 ~~~
 
 # для корректной работы с переменными, созданными из UI
