@@ -1,13 +1,13 @@
 # Airflow
 Implement following steps:
 
-### Build airflow-ml-base:
+### 1. Build airflow-ml-base:
 ```bash
 $ cd images/airflow-ml-base
 $ docker build -t airflow-ml-base:latest .
 ```
 
-### Reveal airflow:
+### 2. Reveal airflow:
 ```bash
 $ export FERNET_KEY=$(python -c "from cryptography.fernet import Fernet; FERNET_KEY = Fernet.generate_key().decode(); print(FERNET_KEY)")
 $ docker compose up --build
