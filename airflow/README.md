@@ -1,12 +1,22 @@
-Build airflow-ml-base:
-~~~
-cd images/airflow-ml-base
-docker build -t airflow-ml-base:latest .
-~~~
+# Airflow
+Implement following steps:
 
-# для корректной работы с переменными, созданными из UI
-Reavel airflow:
+### 1. Build airflow-ml-base:
+```bash
+$ cd images/airflow-ml-base
+$ docker build -t airflow-ml-base:latest .
+```
+
+### 2. Reveal airflow:
+```bash
+$ export FERNET_KEY=$(python -c "from cryptography.fernet import Fernet; FERNET_KEY = Fernet.generate_key().decode(); print(FERNET_KEY)")
+$ docker compose up --build
+```
+
+### 3. Open in browser
 ~~~
-export FERNET_KEY=$(python -c "from cryptography.fernet import Fernet; FERNET_KEY = Fernet.generate_key().decode(); print(FERNET_KEY)")
-docker compose up --build
+http://localhost:8080/
+
+login: admin
+password: admin
 ~~~
