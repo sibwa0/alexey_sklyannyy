@@ -13,7 +13,10 @@ $ export FERNET_KEY=$(python -c "from cryptography.fernet import Fernet; FERNET_
 $ docker compose up --build
 ```
 
+### 3. Open in browser
 ~~~
+http://localhost:8080/
+
 login: admin
 password: admin
 ~~~
