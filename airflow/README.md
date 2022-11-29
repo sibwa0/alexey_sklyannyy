@@ -1,8 +1,8 @@
 Build airflow-ml-base:
-~~~
+```bash
 $ cd images/airflow-ml-base
 $ docker build -t airflow-ml-base:latest .
-~~~
+```
 
 # для корректной работы с переменными, созданными из UI
 Reavel airflow:
