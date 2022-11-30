@@ -1,6 +1,6 @@
 
 
-PATH_VOLUME = "\\wsl$\Ubuntu-20.04\home\sklaa00\main_course\second\mlops\alexey_sklyannyy\airflow_ml_dags\data"
+PATH_VOLUME = "/home/sklaa00/main_course/second/mlops/alexey_sklyannyy/airflow_ml_dags/data"
 PATH_DATA = "/data/raw/{{ ds }}"
 PATH_PROCESSED = "/data/raw/{{ ds }}"
 PATH_TARGET = "/data"
