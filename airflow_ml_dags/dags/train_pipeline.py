@@ -26,7 +26,7 @@ default_args = {
 with DAG(
         "train_pipeline",
         default_args=default_args,
-        schedule_interval="@daily",
+        schedule_interval="@weekly",
         start_date=datetime(2022, 11, 29),
 ) as dag:
     download_daily_data = DockerOperator(
