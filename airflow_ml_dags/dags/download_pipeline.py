@@ -4,15 +4,12 @@ from airflow import DAG
 from airflow.providers.docker.operators.docker import DockerOperator
 from docker.types import Mount
 
-from my_utils import (
+from utils import (
     PATH_DATA,
     PATH_TARGET,
     PATH_VOLUME
 )
 
-# PATH_VOLUME = "/home/sklaa00/main_course/second/mlops/alexey_sklyannyy/airflow_ml_dags/data"
-# PATH_DATA = "/data/raw/{{ ds }}"
-# PATH_TARGET = "/data"
 
 default_args = {
     "owner": "airflow",

@@ -4,14 +4,12 @@ from airflow import DAG
 from airflow.providers.docker.operators.docker import DockerOperator
 from docker.types import Mount
 
-from my_utils import (
-    PATH_DATA,
+from utils import (
     PATH_MODEL,
     PATH_PREDICTS,
     PATH_TARGET,
     PATH_VOLUME,
     PATH_SPLIT_DATA,
-    PATH_METRICS,
 )
 
 

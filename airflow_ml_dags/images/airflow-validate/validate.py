@@ -18,9 +18,10 @@ FILENAME_PREDICTS = "predicts.csv"
 
 @click.command("train")
 @click.option("--input-dir")
+@click.option("--preproc-dir")
 @click.option("--model-dir")
-def train(model_dir: str, input_dir: str):
-    path_x_test = os.path.join(input_dir, FILENAME_TEST_DATA)
+def train(model_dir: str, input_dir: str, preproc_dir: str):
+    path_x_test = os.path.join(preproc_dir, FILENAME_TEST_DATA)
     test_data = pd.read_csv(path_x_test)
 
     path_y_test = os.path.join(input_dir, FILENAME_TARGET_DATA)

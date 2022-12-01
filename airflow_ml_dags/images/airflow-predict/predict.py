@@ -30,15 +30,6 @@ def predict(input_dir: str, output_dir: str, model_dir: str):
     os.makedirs(output_dir, exist_ok=True)
     pred_dataframe.to_csv(os.path.join(output_dir, FILENAME_PREDICTS), index=False)
 
-    # vals = pd.read_csv(os.path.join(input_dir, FILENAME_TARGET))
-    # metrics = classification_report(vals, predicts, output_dict=True)
-
-    # path_metric = os.path.join(metric_dir, FILENAME_METRICS)
-
-    # os.makedirs(metric_dir, exist_ok=True)
-    # with open(path_metric, "wb") as fd_metrics:
-    #     pickle.dump(metrics, fd_metrics)
-
 
 if __name__ == '__main__':
     predict()
