@@ -26,7 +26,7 @@ def train(model_dir: str, input_dir: str):
 
     path_model = os.path.join(model_dir, FILENAME_MODEL)
     with open(path_model, "rb") as fd_read_model:
-        model = pickle.dump(fd_read_model)
+        model = pickle.load(fd_read_model)
 
     model.fit(train_data, target_data)
 

@@ -37,23 +37,40 @@ with DAG(
         mounts=[Mount(source=PATH_VOLUME, target=PATH_TARGET, type='bind')],
     )
 
-    preprocess_data = DockerOperator(
-        image="airflow-preprocess",
-        command=f"--input-dir {PATH_DATA} --output-dir {PATH_PREPROCESS}",
-        task_id="docker-airflow-preprocess",
-        do_xcom_push=False,
-        mount_tmp_dir=False,
-        mounts=[Mount(source=PATH_VOLUME, target=PATH_TARGET, type='bind')],
-    )
-
     split_data = DockerOperator(
         image="airflow-split",
-        command=f"--input-dir {PATH_PREPROCESS} --output-dir {PATH_SPLIT_DATA} --size {SIZE_SPLIT} --random-state {RANDOM_STATE}",
+        command=f"--input-dir {PATH_DATA} --output-dir {PATH_SPLIT_DATA} --size {SIZE_SPLIT} --random-state {RANDOM_STATE}",
         task_id="docker-airflow-split",
         do_xcom_push=False,
         mount_tmp_dir=False,
         mounts=[Mount(source=PATH_VOLUME, target=PATH_TARGET, type='bind')],
     )
 
+    preprocess_data = DockerOperator(
+        image="airflow-preprocess",
+        command=f"--input-dir {PATH_SPLIT_DATA} --output-dir {PATH_PREPROCESS}",
+        task_id="docker-airflow-preprocess",
+        do_xcom_push=False,
+        mount_tmp_dir=False,
+        mounts=[Mount(source=PATH_VOLUME, target=PATH_TARGET, type='bind')],
+    )
 
-    download_daily_data >> preprocess_data >> split_data
+    init_model = DockerOperator(
+        image="airflow-model",
+        command=f"--output-dir {PATH_MODEL}",
+        task_id="docker-airflow-model",
+        do_xcom_push=False,
+        mount_tmp_dir=False,
+        mounts=[Mount(source=PATH_VOLUME, target=PATH_TARGET, type='bind')],
+    )
+
+    train_model = DockerOperator(
+        image="airflow-train",
+        command=f"--input-dir {PATH_SPLIT_DATA} --model-dir {PATH_MODEL}",
+        task_id="docker-airflow-train",
+        do_xcom_push=False,
+        mount_tmp_dir=False,
+        mounts=[Mount(source=PATH_VOLUME, target=PATH_TARGET, type='bind')],
+    )
+
+    download_daily_data >> split_data >> preprocess_data >> init_model >> train_model

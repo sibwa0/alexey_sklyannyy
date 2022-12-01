@@ -16,8 +16,8 @@ FILENAME_TEST_Y = "y_test.csv"
 @click.command("split_data")
 @click.option("--input-dir")
 @click.option("--output-dir")
-@click.option("--size")
-@click.option("--random-state")
+@click.option("--size", type=float)
+@click.option("--random-state", type=int)
 def split_data(input_dir: str, output_dir: str, size: float, random_state: int):
     path_data = os.path.join(input_dir, FILENAME_DATA)
     features_df = pd.read_csv(path_data)

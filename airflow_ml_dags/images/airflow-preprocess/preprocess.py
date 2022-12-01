@@ -9,7 +9,7 @@ from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 
 
-FILENAME_DATA = "data.csv"
+FILENAME_DATA = "X_train.csv"
 
 
 def build_numerical_pipeline() -> Pipeline:
