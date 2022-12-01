@@ -6,13 +6,12 @@ from docker.types import Mount
 
 from my_utils import (
     PATH_DATA,
+    PATH_MODEL,
+    PATH_PREDICTS,
     PATH_TARGET,
     PATH_VOLUME
 )
 
-# PATH_VOLUME = "/home/sklaa00/main_course/second/mlops/alexey_sklyannyy/airflow_ml_dags/data"
-# PATH_DATA = "/data/raw/{{ ds }}"
-# PATH_TARGET = "/data"
 
 default_args = {
     "owner": "airflow",
@@ -22,18 +21,19 @@ default_args = {
 }
 
 with DAG(
-        "download_daily_data",
+        "predict_daily_data",
         default_args=default_args,
         schedule_interval="@daily",
         start_date=datetime(2022, 11, 29),
 ) as dag:
-    download_daily_data = DockerOperator(
-        image="airflow-download",
-        command=f"--output-dir {PATH_DATA}",
-        task_id="docker-airflow-download",
+
+    predict = DockerOperator(
+        image="airflow-predict",
+        command=f"--input-dir {PATH_DATA} --output-dir {PATH_PREDICTS} --model-dir {PATH_MODEL}",
+        task_id="docker-airflow-predict",
         do_xcom_push=False,
         mount_tmp_dir=False,
         mounts=[Mount(source=PATH_VOLUME, target=PATH_TARGET, type='bind')],
     )
 
-    download_daily_data
+    predict

@@ -2,8 +2,14 @@
 
 PATH_VOLUME = "/home/sklaa00/main_course/second/mlops/alexey_sklyannyy/airflow_ml_dags/data"
 PATH_DATA = "/data/raw/{{ ds }}"
-PATH_PROCESSED = "/data/raw/{{ ds }}"
+PATH_PREPROCESS = "/data/preprocess/{{ ds }}"
+PATH_SPLIT_DATA = "/data/split_data/{{ ds }}"
+PATH_MODEL = "/data/models/{{ ds }}"
+PATH_PREDICTS = "/data/predicts/{{ ds }}"
 PATH_TARGET = "/data"
+
+SIZE_SPLIT = 0.2
+RANDOM_STATE = 5
 
 FILENAME_DATA_FEATURES = "data.csv"
 FILENAME_DATA_TARGET = "target.csv"

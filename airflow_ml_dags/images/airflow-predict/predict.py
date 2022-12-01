@@ -1,19 +1,31 @@
 import os
 import pandas as pd
 
+import pickle
 import click
 
+FILENAME_DATA = "data.csv"
+FILENAME_MODEL = "model.pkl"
+FILENAME_PREDICTS = "predicts.csv"
+COL_TARGET = "condition"
 
 @click.command("predict")
 @click.option("--input-dir")
 @click.option("--output-dir")
-def predict(input_dir: str, output_dir):
-    data = pd.read_csv(os.path.join(input_dir, "data.csv"))
-    # do real predict instead
-    data["predict"] = 1
+@click.option("--model-dir")
+def predict(input_dir: str, output_dir: str, model_dir: str):
+    dataset = pd.read_csv(os.path.join(input_dir, FILENAME_DATA))
+
+    path_model = os.path.join(model_dir, FILENAME_MODEL)
+    with open(path_model, "rb") as fd_model:
+        model = pickle.load(fd_model)
+    
+    predicts = model.predict(dataset)
+    pred_dataframe = pd.DataFrame()
+    pred_dataframe[COL_TARGET] = predicts
 
     os.makedirs(output_dir, exist_ok=True)
-    data.to_csv(os.path.join(output_dir, "data.csv"))
+    pred_dataframe.to_csv(os.path.join(output_dir, FILENAME_PREDICTS))
 
 
 if __name__ == '__main__':

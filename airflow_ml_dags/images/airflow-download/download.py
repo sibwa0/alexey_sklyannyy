@@ -1,20 +1,21 @@
 import os
-from tkinter import Y
 import click
 import pandas as pd
 import numpy as np
+from typing import Tuple
 
-from airflow_ml_dags.utils import (
-    FILENAME_DATA_FEATURES,
-    FILENAME_DATA_TARGET
-)
+# from airflow_ml_dags.utils import (
+#     FILENAME_DATA_FEATURES,
+#     FILENAME_DATA_TARGET
+# )
 
-
+FILENAME_DATA_FEATURES = "data.csv"
+FILENAME_DATA_TARGET = "target.csv"
 SIZE_DATASET = 50
 
 
-def gerenate_rand_data() -> pd.DataFrame:
-    X, y = pd.DataFrame(), pd.Series()
+def gerenate_rand_data() -> Tuple[pd.DataFrame, pd.DataFrame]:
+    X, y = pd.DataFrame(), pd.DataFrame()
 
     X["age"] = np.random.randint(10, 80, size=SIZE_DATASET)
     X["sex"] = np.random.randint(0, 2, size=SIZE_DATASET)
@@ -36,7 +37,7 @@ def gerenate_rand_data() -> pd.DataFrame:
 
 
 @click.command("download")
-@click.argument("output_dir")
+@click.option("--output-dir")
 def download(output_dir: str):
     X, y = gerenate_rand_data()
 
