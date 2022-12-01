@@ -33,16 +33,6 @@ def train(model_dir: str, input_dir: str):
     with open(path_model, "wb") as fd_write_model:
         pickle.dump(model, fd_write_model)
 
-    # predicts = model.predict(X_test)
-
-    # metrics = classification_report(y_test, predicts)
-
-    # os.makedirs(output_dir, exist_ok=True)
-
-
-    # path_metrics = os.path.join(output_dir, FILENAME_METRICS)
-    # with open(path_metrics, "wb") as fd_metrics:
-    #     pickle.dump(metrics, fd_metrics)
 
 if __name__ == "__main__":
     train()
