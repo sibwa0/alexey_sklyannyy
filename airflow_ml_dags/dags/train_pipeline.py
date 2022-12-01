@@ -7,13 +7,14 @@ from docker.types import Mount
 from my_utils import (
     PATH_DATA,
     PATH_MODEL,
-    PATH_PREPROCESSED,
+    PATH_PREPROCESS,
     PATH_SPLIT_DATA,
     SIZE_SPLIT,
     RANDOM_STATE,
     PATH_TARGET,
     PATH_VOLUME,
 )
+
 
 default_args = {
     "owner": "airflow",
@@ -23,15 +24,15 @@ default_args = {
 }
 
 with DAG(
-        "train_weekly_data",
+        "train_pipeline",
         default_args=default_args,
-        schedule_interval="@weekly",
+        schedule_interval="@daily",
         start_date=datetime(2022, 11, 29),
 ) as dag:
-    preprocess_data = DockerOperator(
-        image="airflow-preprocess",
-        command=f"--input-dir {PATH_DATA} --output-dir {PATH_PREPROCESSED}",
-        task_id="docker-airflow-preprocess",
+    download_daily_data = DockerOperator(
+        image="airflow-download",
+        command=f"--output-dir {PATH_DATA}",
+        task_id="docker-airflow-download",
         do_xcom_push=False,
         mount_tmp_dir=False,
         mounts=[Mount(source=PATH_VOLUME, target=PATH_TARGET, type='bind')],
@@ -39,8 +40,17 @@ with DAG(
 
     split_data = DockerOperator(
         image="airflow-split",
-        command=f"--input-dir {PATH_PREPROCESSED} --output-dir {PATH_SPLIT_DATA} --size {SIZE_SPLIT} --random-state {RANDOM_STATE}",
+        command=f"--input-dir {PATH_DATA} --output-dir {PATH_SPLIT_DATA} --size {SIZE_SPLIT} --random-state {RANDOM_STATE}",
         task_id="docker-airflow-split",
+        do_xcom_push=False,
+        mount_tmp_dir=False,
+        mounts=[Mount(source=PATH_VOLUME, target=PATH_TARGET, type='bind')],
+    )
+
+    preprocess_data = DockerOperator(
+        image="airflow-preprocess",
+        command=f"--input-dir {PATH_SPLIT_DATA} --output-dir {PATH_PREPROCESS}",
+        task_id="docker-airflow-preprocess",
         do_xcom_push=False,
         mount_tmp_dir=False,
         mounts=[Mount(source=PATH_VOLUME, target=PATH_TARGET, type='bind')],
@@ -56,12 +66,21 @@ with DAG(
     )
 
     train_model = DockerOperator(
-        image="airflow-model",
+        image="airflow-train",
         command=f"--input-dir {PATH_SPLIT_DATA} --model-dir {PATH_MODEL}",
-        task_id="docker-airflow-model",
+        task_id="docker-airflow-train",
         do_xcom_push=False,
         mount_tmp_dir=False,
         mounts=[Mount(source=PATH_VOLUME, target=PATH_TARGET, type='bind')],
     )
 
-    preprocess_data >> split_data >> init_model >> train_model
+    val_model = DockerOperator(
+        image="airflow-validate",
+        command=f"--input-dir {PATH_SPLIT_DATA} --model-dir {PATH_MODEL}",
+        task_id="docker-airflow-validate",
+        do_xcom_push=False,
+        mount_tmp_dir=False,
+        mounts=[Mount(source=PATH_VOLUME, target=PATH_TARGET, type='bind')],
+    )
+
+    download_daily_data >> split_data >> preprocess_data >> init_model >> train_model >> val_model

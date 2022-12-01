@@ -9,7 +9,9 @@ from my_utils import (
     PATH_MODEL,
     PATH_PREDICTS,
     PATH_TARGET,
-    PATH_VOLUME
+    PATH_VOLUME,
+    PATH_SPLIT_DATA,
+    PATH_METRICS,
 )
 
 
@@ -29,7 +31,7 @@ with DAG(
 
     predict = DockerOperator(
         image="airflow-predict",
-        command=f"--input-dir {PATH_DATA} --output-dir {PATH_PREDICTS} --model-dir {PATH_MODEL}",
+        command=f"--input-dir {PATH_SPLIT_DATA} --output-dir {PATH_PREDICTS} --model-dir {PATH_MODEL}",
         task_id="docker-airflow-predict",
         do_xcom_push=False,
         mount_tmp_dir=False,

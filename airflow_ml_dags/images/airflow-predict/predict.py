@@ -3,10 +3,13 @@ import pandas as pd
 
 import pickle
 import click
+from sklearn.metrics import classification_report
 
-FILENAME_DATA = "data.csv"
+FILENAME_DATA = "X_test.csv"
+FILENAME_TARGET = "y_test.csv"
 FILENAME_MODEL = "model.pkl"
 FILENAME_PREDICTS = "predicts.csv"
+FILENAME_METRICS = "metrics.json"
 COL_TARGET = "condition"
 
 @click.command("predict")
@@ -25,7 +28,16 @@ def predict(input_dir: str, output_dir: str, model_dir: str):
     pred_dataframe[COL_TARGET] = predicts
 
     os.makedirs(output_dir, exist_ok=True)
-    pred_dataframe.to_csv(os.path.join(output_dir, FILENAME_PREDICTS))
+    pred_dataframe.to_csv(os.path.join(output_dir, FILENAME_PREDICTS), index=False)
+
+    # vals = pd.read_csv(os.path.join(input_dir, FILENAME_TARGET))
+    # metrics = classification_report(vals, predicts, output_dict=True)
+
+    # path_metric = os.path.join(metric_dir, FILENAME_METRICS)
+
+    # os.makedirs(metric_dir, exist_ok=True)
+    # with open(path_metric, "wb") as fd_metrics:
+    #     pickle.dump(metrics, fd_metrics)
 
 
 if __name__ == '__main__':
