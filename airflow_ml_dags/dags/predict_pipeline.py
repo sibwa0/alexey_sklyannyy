@@ -10,6 +10,9 @@ from utils import (
     PATH_TARGET,
     PATH_VOLUME,
     PATH_SPLIT_DATA,
+    PATH_DATA,
+    SIZE_SPLIT,
+    RANDOM_STATE,
 )
 
 
@@ -24,8 +27,16 @@ with DAG(
         "predict_daily_data",
         default_args=default_args,
         schedule_interval="@daily",
-        start_date=datetime(2022, 11, 29),
+        start_date=datetime(2022, 11, 25),
 ) as dag:
+    split_data = DockerOperator(
+        image="airflow-split",
+        command=f"--input-dir {PATH_DATA} --output-dir {PATH_SPLIT_DATA} --size {SIZE_SPLIT} --random-state {RANDOM_STATE}",
+        task_id="docker-airflow-split",
+        do_xcom_push=False,
+        mount_tmp_dir=False,
+        mounts=[Mount(source=PATH_VOLUME, target=PATH_TARGET, type='bind')],
+    )
 
     predict = DockerOperator(
         image="airflow-predict",
@@ -36,4 +47,4 @@ with DAG(
         mounts=[Mount(source=PATH_VOLUME, target=PATH_TARGET, type='bind')],
     )
 
-    predict
+    split_data >> predict

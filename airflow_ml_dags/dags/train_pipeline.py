@@ -13,6 +13,7 @@ from utils import (
     RANDOM_STATE,
     PATH_TARGET,
     PATH_VOLUME,
+    PATH_TRAIN_MODEL
 )
 
 
@@ -27,7 +28,7 @@ with DAG(
         "train_pipeline",
         default_args=default_args,
         schedule_interval="@weekly",
-        start_date=datetime(2022, 11, 29),
+        start_date=datetime(2022, 11, 25),
 ) as dag:
     download_daily_data = DockerOperator(
         image="airflow-download",
@@ -58,7 +59,7 @@ with DAG(
 
     init_model = DockerOperator(
         image="airflow-model",
-        command=f"--output-dir {PATH_MODEL}",
+        command=f"--output-dir {PATH_TRAIN_MODEL}",
         task_id="docker-airflow-model",
         do_xcom_push=False,
         mount_tmp_dir=False,
@@ -67,7 +68,7 @@ with DAG(
 
     train_model = DockerOperator(
         image="airflow-train",
-        command=f"--input-dir {PATH_SPLIT_DATA} --model-dir {PATH_MODEL}",
+        command=f"--input-dir {PATH_SPLIT_DATA} --model-dir {PATH_TRAIN_MODEL}",
         task_id="docker-airflow-train",
         do_xcom_push=False,
         mount_tmp_dir=False,
@@ -76,7 +77,7 @@ with DAG(
 
     val_model = DockerOperator(
         image="airflow-validate",
-        command=f"--input-dir {PATH_SPLIT_DATA} --preproc-dir {PATH_PREPROCESS} --model-dir {PATH_MODEL}",
+        command=f"--input-dir {PATH_SPLIT_DATA} --preproc-dir {PATH_PREPROCESS} --model-dir {PATH_TRAIN_MODEL}",
         task_id="docker-airflow-validate",
         do_xcom_push=False,
         mount_tmp_dir=False,

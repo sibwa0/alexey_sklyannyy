@@ -1,12 +1,13 @@
 from airflow.models import Variable
 
-# PATH_VOLUME = "/home/sklaa00/main_course/second/mlops/alexey_sklyannyy/airflow_ml_dags/data"
-PATH_VOLUME = Variable.get("PATH_VOLUME", default_var="/home/sklaa00/main_course/second/mlops/alexey_sklyannyy/airflow_ml_dags/data")
+
+PATH_VOLUME = Variable.get("path_volume")#, default_var="/home/sklaa00/main_course/second/mlops/alexey_sklyannyy/airflow_ml_dags/data")
 PATH_DATA = "/data/raw/{{ ds }}"
 PATH_PREPROCESS = "/data/preprocess/{{ ds }}"
 PATH_SPLIT_DATA = "/data/split_data/{{ ds }}"
+PATH_TRAIN_MODEL = "/data/models/{{ ds }}"
 # PATH_MODEL = "/data/models/{{ ds }}"
-PATH_MODEL = Variable.get("PATH_MODEL", default_var="/data/models/{{ ds }}/")
+PATH_MODEL = Variable.get("path_model")#, default_var="/data/models/2022-11-27")
 PATH_PREDICTS = "/data/predicts/{{ ds }}"
 PATH_METRICS = "/data/metrics/{{ ds }}"
 PATH_TARGET = "/data"

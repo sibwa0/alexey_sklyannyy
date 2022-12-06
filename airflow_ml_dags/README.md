@@ -11,6 +11,7 @@ $ docker build -t airflow-ml-base:latest .
 ```bash
 $ export FERNET_KEY=$(python -c "from cryptography.fernet import Fernet; FERNET_KEY = Fernet.generate_key().decode(); print(FERNET_KEY)")
 $ export PATH_VOLUME=$(pwd)/data
+$ export PATH_MODEL="/data/models/2022-11-27"
 
 from airflow_ml_dags run:
 $ docker compose up --build
