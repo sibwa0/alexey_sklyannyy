@@ -1,4 +1,5 @@
 from airflow.models import Variable
+from datetime import timedelta
 
 
 PATH_VOLUME = Variable.get("path_volume")#, default_var="/home/sklaa00/main_course/second/mlops/alexey_sklyannyy/airflow_ml_dags/data")
@@ -22,3 +23,10 @@ FILENAME_DATA_TRAIN = "train.csv"
 FILENAME_MODEL = "model.pkl"
 FILENAME_METRICS = "metrics.json"
 COL_TARGET = "condition"
+
+default_args = {
+    "owner": "airflow",
+    "email": ["airflow@example.com"],
+    "retries": 1,
+    "retry_delay": timedelta(minutes=1),
+}

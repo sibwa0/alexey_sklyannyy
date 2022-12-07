@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 
 from airflow import DAG
 from airflow.providers.docker.operators.docker import DockerOperator
@@ -13,16 +13,10 @@ from utils import (
     RANDOM_STATE,
     PATH_TARGET,
     PATH_VOLUME,
-    PATH_TRAIN_MODEL
+    PATH_TRAIN_MODEL,
+    default_args
 )
 
-
-default_args = {
-    "owner": "airflow",
-    "email": ["airflow@example.com"],
-    "retries": 1,
-    "retry_delay": timedelta(minutes=1),
-}
 
 with DAG(
         "train_pipeline",

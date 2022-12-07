@@ -13,15 +13,9 @@ from utils import (
     PATH_DATA,
     SIZE_SPLIT,
     RANDOM_STATE,
+    default_args
 )
 
-
-default_args = {
-    "owner": "airflow",
-    "email": ["airflow@example.com"],
-    "retries": 1,
-    "retry_delay": timedelta(minutes=1),
-}
 
 with DAG(
         "predict_daily_data",

@@ -7,16 +7,10 @@ from docker.types import Mount
 from utils import (
     PATH_DATA,
     PATH_TARGET,
-    PATH_VOLUME
+    PATH_VOLUME,
+    default_args
 )
 
-
-default_args = {
-    "owner": "airflow",
-    "email": ["airflow@example.com"],
-    "retries": 1,
-    "retry_delay": timedelta(minutes=1),
-}
 
 with DAG(
         "download_daily_data",
