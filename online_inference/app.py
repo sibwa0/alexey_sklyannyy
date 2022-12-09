@@ -70,7 +70,6 @@ def load_model():
     url = os.getenv("PATH_DOWNLOAD_MODEL")
     gdown.download(url, quiet=False)
 
-    print("Startup")
     global model
     model_path = os.getenv("PATH_TO_MODEL")
     if model_path is None:
