@@ -10,7 +10,7 @@ ml project
 Необходимо использовать python3.8
 ~~~
 sudo apt-get install python3.8
-sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 <input priority to choose python3.8>
+sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 <input priority to choose python3.8>
 sudo update-alternatives --config python3
 <choose your input number>
 ~~~ 
