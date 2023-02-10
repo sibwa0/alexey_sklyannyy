@@ -2,6 +2,7 @@
 Склянный Алексей, ML-21
 
 Airflow : airflow_ml_dags
+<br/>
 FastApi : online_inference
 
 ==============================
