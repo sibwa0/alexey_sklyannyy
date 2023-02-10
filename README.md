@@ -1,6 +1,8 @@
 # Technopark
 Склянный Алексей, ML-21
 
+Airflow : airflow_ml_dags
+FastApi : online_inference
 
 ==============================
 
